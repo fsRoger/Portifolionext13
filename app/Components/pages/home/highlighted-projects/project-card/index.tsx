@@ -1,20 +1,24 @@
 import { Link } from "@/app/Components/link"
 import { TechBadge } from '@/app/Components/tech-badge'
-import  Image  from "next/image"
+import Image from "next/image"
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Project } from "@/app/types/projects";
+import { KnownTech } from '../../known-techs/known-tech';
 
+type ProjectCardProps = {
+  project: Project
+}
 
-export const ProjectCard = () => {
-  return(
+export const ProjectCard = ({ project }: ProjectCardProps) => {
+  return (
     <div className='flex gap-6 lg:gap-12 flex-col lg:flex-row'>
       <div className='w-full h-full'>
-        <Image 
+        <Image
           width={420}
           height={304}
-          src="/images/icons/project-title-icon.svg"
-          alt="Thumbnail do projeto BookWise"
+          src={project.thumbnail.url}
+          alt={`Thumbnail do projeto BookWise ${project.title}`}
           className="w-full h-[200px] sm:h-[300px] lg:w-[420px] lg:min-h-full object-cover rounded-lg"
-        
         />
       </div>
 
@@ -26,22 +30,20 @@ export const ProjectCard = () => {
             alt=""
             src="/images/icons/project-title-icon.svg"
           />
-          BookWise
+          {project.title}
         </h3>
 
         <p className='text-gray-400 my-6'>
-          lorem20sdfdsfds fds fdsfsd fsdfsdfsdf dssd fsd fsdf sdfs dfsdf sdfsdfsdfsd fsdf sdfsdfsdfs fsd fsdf sdf sdf sd fsdf sd fsdfsdfsdfsdfsdfsdf sdfsd fsd fsd
+          {project.shortDescription}
         </p>
 
         <div className='flex gap-x-2 gap-y-3 flex-wrap nb-8 lg:max-w[350px]'>
-          <TechBadge name="next.js" />
-          <TechBadge name="next.js" />
-          <TechBadge name="next.js" />
-          <TechBadge name="next.js" />
-          <TechBadge name="next.js" />
+          {project.technologies.map(tech => (
+            <TechBadge key={`${project.title}-tech-${tech.name}`} name={tech.name} />
+          ))}
         </div>
 
-        <Link href="/projects/book-wise">
+        <Link href={`/projects/${project.slug}`}>
           ver projeto
           <HiArrowNarrowRight />
         </Link>
